@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Bewertungs list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fitness</th>
+                <th>Trainer</th>
+                <th>Duschen</th>
+                <th>Laufzeit</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bewertung in bewertungs %}
+            <tr>
+                <td><a href="{{ path('bewertung_show', { 'id': bewertung.id }) }}">{{ bewertung.id }}</a></td>
+                <td>{{ bewertung.fitness.name }}</td>
+                <td>{{ bewertung.trainer }}</td>
+                <td>{{ bewertung.duschen }}</td>
+                <td>{{ bewertung.laufzeit }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('bewertung_show', { 'id': bewertung.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('bewertung_edit', { 'id': bewertung.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('bewertung_new') }}">Create a new bewertung</a>
+        </li>
+    </ul>
+{% endblock %}

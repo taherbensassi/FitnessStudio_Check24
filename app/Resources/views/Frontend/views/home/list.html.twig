@@ -1,0 +1,130 @@
+{% extends ':Frontend/views:base.html.twig' %}
+{% block stylesheets %}
+    <style>
+        label{
+            float: left;
+        }
+        .highest{
+            color:Red;
+        }​
+    </style>
+
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h4 class="mt-5">das beste Angebot</h4>
+    <table class="table table-striped" name="mytable" id="mytable" >
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Stadt</th>
+            <th>Preis</th>
+            <th>Offnenzeit</th>
+            <th>Trainer</th>
+            <th>Note Bewertung</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% if best is defined and best is not null %}
+
+        {% for fitness in best %}
+
+            <tr>
+                <td>{{ fitness.name }}</td>
+                <td>{{ fitness.stadt }}</td>
+                <td>{{ fitness.preis }} €</td>
+                <td>
+
+                    {% if fitness.offnenZeit %}
+                        24h/24h
+                    {% else %}
+                        Nicht eroeffnet 24h/24h
+                    {% endif %}
+
+                </td>
+                <td>{{ fitness.trainer }}</td>
+
+                {% set unchecked = 'false' %}
+                {% for bewertung in bewertungs if bewertung.fitness == fitness%}
+                    {% set unchecked = 'true' %}
+                    <td>{{ bewertung.trainer+ bewertung.duschen+ bewertung.laufzeit }}</td>
+                {% endfor %}
+                {% if unchecked == 'false' %}
+                    <td>Keine Bewertung</td>
+                {% endif %}
+
+
+            </tr>
+        {% endfor %}
+        {% endif %}
+
+        {% if result is defined and result is not null %}
+            <div class="alert alert-info" role="alert">
+                Es gibt keine Result - Gleich stadt
+            </div>
+        {% for fitness in result %}
+
+            <tr>
+                <td>{{ fitness.name }}</td>
+                <td>{{ fitness.stadt }}</td>
+                <td>{{ fitness.preis }} €</td>
+                <td>
+
+                    {% if fitness.offnenZeit %}
+                        24h/24h
+                    {% else %}
+                        Nicht eroeffnet 24h/24h
+                    {% endif %}
+
+                </td>
+                <td>{{ fitness.trainer }}</td>
+
+                {% set unchecked = 'false' %}
+                {% for bewertung in bewertungs if bewertung.fitness == fitness%}
+                    {% set unchecked = 'true' %}
+                    <td class="price">{{ bewertung.trainer+ bewertung.duschen+ bewertung.laufzeit }}</td>
+                {% endfor %}
+                {% if unchecked == 'false' %}
+                    <td class="price">Keine Bewertung</td>
+                {% endif %}
+
+
+            </tr>
+        {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block javascripts %}
+
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <script src="{{ asset('bundles/frontend/bootstrap-typeahead.js') }}" type="text/javascript"></script>
+
+    <script>
+        $(function(){
+            var values = $('.price').map(function() {
+                return parseInt( $(this).html().replace("$ ","") );
+            }).get();
+
+            var max = Math.max.apply( null, values );
+
+            $('.price').each(function(){
+                if(parseInt( $(this).html().replace("$ ","")) == max){
+                    $(this).addClass('highest');
+                    $(this).append("  :Best berwertung");
+
+                }
+            });
+        })
+    </script>
+{% endblock %}

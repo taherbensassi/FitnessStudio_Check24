@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Fitnesses list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Stadt</th>
+                <th>Preis</th>
+                <th>Offnenzeit</th>
+                <th>Trainer</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fitness in fitnesses %}
+            <tr>
+                <td><a href="{{ path('fitness_show', { 'id': fitness.id }) }}">{{ fitness.id }}</a></td>
+                <td>{{ fitness.name }}</td>
+                <td>{{ fitness.stadt }}</td>
+                <td>{{ fitness.preis }}</td>
+                <td>{% if fitness.offnenZeit %}Yes{% else %}No{% endif %}</td>
+                <td>{{ fitness.trainer }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('fitness_show', { 'id': fitness.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('fitness_edit', { 'id': fitness.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('fitness_new') }}">Create a new fitness</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Fitness</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ fitness.id }}</td>
+            </tr>
+            <tr>
+                <th>name</th>
+                <td>{{ fitness.name }}</td>
+            </tr>
+            <tr>
+                <th>Stadt</th>
+                <td>{{ fitness.stadt }}</td>
+            </tr>
+            <tr>
+                <th>Preis</th>
+                <td>{{ fitness.preis }}</td>
+            </tr>
+            <tr>
+                <th>Offnenzeit</th>
+                <td>{% if fitness.offnenZeit %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Trainer</th>
+                <td>{{ fitness.trainer }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('fitness_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('fitness_edit', { 'id': fitness.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
